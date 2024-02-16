@@ -9,7 +9,7 @@
 		<relativePath/>
 	</parent>
 	<groupId>com</groupId>
-	<artifactId>Fit and Fun</artifactId>
+	<artifactId>fit-and-fun</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Fit and Fun</name>
 	<description>Fit and Fun project</description>
