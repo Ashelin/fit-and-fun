@@ -1,5 +1,6 @@
 package com.faf.service;
 
+import com.faf.dto.SearchWorkout;
 import com.faf.dto.WorkoutRequest;
 import com.faf.dto.WorkoutResponse;
 import com.faf.model.Workout;
@@ -17,8 +18,11 @@ public class WorkoutService {
 
     private final WorkoutRepository workoutRepository;
 
-    public List<WorkoutResponse> getWorkouts() {
-        List<Workout> workouts = workoutRepository.findAll();
+    public List<WorkoutResponse> searchWorkout(SearchWorkout searchWorkout) {
+        List<Workout> workouts = workoutRepository.search(
+                searchWorkout.getName(),
+                searchWorkout.getDescription(),
+                searchWorkout.getId());
 
         return workouts.stream().map(this::mapToWorkoutResponse).toList();
     }
