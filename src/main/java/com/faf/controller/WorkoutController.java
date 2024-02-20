@@ -1,5 +1,6 @@
 package com.faf.controller;
 
+import com.faf.dto.SearchWorkout;
 import com.faf.dto.WorkoutRequest;
 import com.faf.dto.WorkoutResponse;
 import com.faf.service.WorkoutService;
@@ -18,8 +19,8 @@ public class WorkoutController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<WorkoutResponse> getProducts(){
-        return workoutService.getWorkouts();
+    public List<WorkoutResponse> searchWorkouts(@ModelAttribute SearchWorkout searchWorkout) {
+        return workoutService.searchWorkout(searchWorkout);
     }
 
     @PostMapping
