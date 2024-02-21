@@ -37,7 +37,7 @@ public class WorkoutController {
 
     @PostMapping(value = "/update/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void createWorkout(@PathVariable Long id, @ModelAttribute WorkoutRequest workoutRequest) {
+    public void updateWorkout(@PathVariable Long id, @ModelAttribute WorkoutRequest workoutRequest) {
         updateWorkoutService.updateWorkout(id, workoutRequest);
     }
 
