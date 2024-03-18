@@ -6,6 +6,7 @@ import com.faf.model.Workout;
 import com.faf.repositroy.WorkoutRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,13 +18,18 @@ public class SearchWorkoutService {
 
     private final WorkoutRepository workoutRepository;
 
-    public List<WorkoutResponse> searchWorkout(SearchWorkout searchWorkout) {
+    public ResponseEntity<List<WorkoutResponse>> searchWorkout(SearchWorkout searchWorkout) {
         List<Workout> workouts = workoutRepository.search(
                 searchWorkout.getName(),
                 searchWorkout.getDescription(),
                 searchWorkout.getId());
 
-        return workouts.stream().map(this::mapToWorkoutResponse).toList();
+        if (workouts.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        List<WorkoutResponse> workoutResponses = workouts.stream().map(this::mapToWorkoutResponse).toList();
+        return ResponseEntity.ok().body(workoutResponses);
     }
 
     private WorkoutResponse mapToWorkoutResponse(Workout workout) {
