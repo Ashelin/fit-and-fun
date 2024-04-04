@@ -6,6 +6,8 @@ import com.faf.model.Workout;
 import com.faf.repositroy.WorkoutRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +16,20 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class SearchWorkoutService {
+public class SearchWorkoutService implements JavaDelegate {
 
     private final WorkoutRepository workoutRepository;
+
+    @Override
+    public void execute(DelegateExecution delegateExecution) throws Exception {
+        SearchWorkout searchWorkout = SearchWorkout.builder()
+                .name((String) delegateExecution.getVariable("name"))
+                .description((String) delegateExecution.getVariable("description"))
+                .id((Long) delegateExecution.getVariable("id"))
+                .build();
+
+        searchWorkout(searchWorkout);
+    }
 
     public ResponseEntity<List<WorkoutResponse>> searchWorkout(SearchWorkout searchWorkout) {
         List<Workout> workouts = workoutRepository.search(

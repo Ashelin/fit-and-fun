@@ -3,6 +3,8 @@ package com.faf.service;
 import com.faf.exception.WorkoutNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,21 +18,28 @@ import java.util.function.Consumer;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class UpdateWorkoutService {
+public class UpdateWorkoutService implements JavaDelegate {
 
     private final WorkoutRepository workoutRepository;
 
-    @Transactional
-    public ResponseEntity<Void> updateWorkout(Long id, WorkoutRequest workoutRequest) {
+    @Override
+    public void execute(DelegateExecution delegateExecution) throws Exception {
+        Long id = (Long) delegateExecution.getVariable("id");
+        WorkoutRequest workoutRequest = WorkoutRequest.builder()
+                .name((String) delegateExecution.getVariable("name"))
+                .description((String) delegateExecution.getVariable("description"))
+                .build();
 
         Workout existingWorkout = workoutRepository.findById(id)
                 .orElseThrow(() -> new WorkoutNotFoundException("Workout not found with id: " + id));
 
         assignValueFromRequestToEntityIfNotNull(workoutRequest.getName(), existingWorkout::setName);
         assignValueFromRequestToEntityIfNotNull(workoutRequest.getDescription(), existingWorkout::setDescription);
-
         log.info("Workout {} updated successfully", id);
+    }
 
+    @Transactional
+    public ResponseEntity<Void> updateWorkout() {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
