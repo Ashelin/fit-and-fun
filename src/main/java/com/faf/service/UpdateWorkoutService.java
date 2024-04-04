@@ -29,6 +29,8 @@ public class UpdateWorkoutService {
         assignValueFromRequestToEntityIfNotNull(workoutRequest.getName(), existingWorkout::setName);
         assignValueFromRequestToEntityIfNotNull(workoutRequest.getDescription(), existingWorkout::setDescription);
 
+        workoutRepository.save(existingWorkout);
+
         log.info("Workout {} updated successfully", id);
 
         return ResponseEntity.status(HttpStatus.OK).build();
