@@ -1,6 +1,5 @@
-package com.faf.api.controller;
+package com.faf.controller;
 
-import com.faf.controller.WorkoutController;
 import com.faf.dto.SearchWorkout;
 import com.faf.dto.WorkoutRequest;
 import com.faf.model.Workout;
