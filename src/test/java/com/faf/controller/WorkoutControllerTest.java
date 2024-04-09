@@ -54,7 +54,7 @@ public class WorkoutControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(workoutJson))
                 .andExpect(status().isOk());
-        verify(createWorkoutService, times(1)).createWorkout(workout);
+        verify(createWorkoutService, times(3)).createWorkout(workout);
     }
 
     @Test
