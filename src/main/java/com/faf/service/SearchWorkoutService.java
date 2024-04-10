@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -18,7 +20,7 @@ public class SearchWorkoutService {
 
     private final WorkoutRepository workoutRepository;
 
-    public ResponseEntity<List<WorkoutResponse>> searchWorkout(SearchWorkout searchWorkout) {
+    public ResponseEntity<Set<WorkoutResponse>> searchWorkout(SearchWorkout searchWorkout) {
         List<Workout> workouts = workoutRepository.search(
                 searchWorkout.getName(),
                 searchWorkout.getDescription(),
@@ -28,7 +30,7 @@ public class SearchWorkoutService {
             return ResponseEntity.notFound().build();
         }
 
-        List<WorkoutResponse> workoutResponses = workouts.stream().map(this::mapToWorkoutResponse).toList();
+        Set<WorkoutResponse> workoutResponses = workouts.stream().map(this::mapToWorkoutResponse).collect(Collectors.toSet());
         return ResponseEntity.ok().body(workoutResponses);
     }
 
