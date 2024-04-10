@@ -9,7 +9,6 @@ import com.faf.service.SearchWorkoutService;
 import com.faf.service.UpdateWorkoutService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,9 +19,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import java.util.Set;
 
-@CrossOrigin("*")
 @RestController
 @RequestMapping(value = "/api/workout")
 @RequiredArgsConstructor
@@ -34,7 +32,7 @@ public class WorkoutController {
     private final UpdateWorkoutService updateWorkoutService;
 
     @GetMapping(value = "/search")
-    public ResponseEntity<List<WorkoutResponse>> searchWorkouts(@ModelAttribute SearchWorkout searchWorkout) {
+    public ResponseEntity<Set<WorkoutResponse>> searchWorkouts(@ModelAttribute SearchWorkout searchWorkout) {
         return searchWorkoutService.searchWorkout(searchWorkout);
     }
 
