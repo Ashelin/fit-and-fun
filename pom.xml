@@ -16,6 +16,7 @@
 	<properties>
 		<java.version>17</java.version>
 		<camundaSpringVersion>7.20.0</camundaSpringVersion>
+		<sonar.organization>fit-and-fun-group</sonar.organization>
 	</properties>
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/org.camunda.bpm.springboot/camunda-bpm-spring-boot-starter -->
